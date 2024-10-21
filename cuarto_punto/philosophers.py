@@ -2,6 +2,7 @@ import threading
 import time
 import random
 
+
 class Philosopher(threading.Thread):
     def __init__(self, name, left_fork, right_fork, buffer, buffer_lock):
         threading.Thread.__init__(self)
@@ -39,7 +40,7 @@ class Philosopher(threading.Thread):
             print(f"{self.name} cambia de tenedor.")
             fork1, fork2 = fork2, fork1
             time.sleep(random.uniform(1, 3))
-        
+
         print(f"{self.name} está comiendo.")
         time.sleep(random.uniform(1, 3))
         print(f"{self.name} ha terminado de comer.")
@@ -47,12 +48,12 @@ class Philosopher(threading.Thread):
         fork1.release()
         fork2.release()
 
+
 def main():
     forks = [threading.Lock() for _ in range(5)]
     names = ["Filósofo 1", "Filósofo 2", "Filósofo 3", "Filósofo 4", "Filósofo 5"]
     buffer = [False] * 5  # Buffer para registrar si cada filósofo ha comido
     buffer_lock = threading.Lock()  # Lock para proteger el acceso al buffer
-
     philosophers = [Philosopher(names[i], forks[i], forks[(i + 1) % 5], buffer, buffer_lock) for i in range(5)]
 
     for philosopher in philosophers:
@@ -62,6 +63,7 @@ def main():
         philosopher.join()
     
     print("Todos los filósofos han comido al menos una vez. Fin del programa.")
+
 
 if __name__ == "__main__":
     main()
